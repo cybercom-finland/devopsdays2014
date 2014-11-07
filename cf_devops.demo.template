@@ -1,0 +1,85 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "DevOpsDays 2014 Cybercom Demo",
+
+  "Parameters" : {
+
+    "KeyName" : {
+      "Description" : "Name of an existing keypair to enable SSH access to the instances",
+      "Type" : "String"
+    },
+
+    "InstanceType" : {
+      "Description" : "Flavor",
+      "Type" : "String",
+      "Default" : "M",
+      "AllowedValues" : [ "XS", "S", "M", "L", "XL", "2XL" ]
+    },
+
+    "InstanceAMI": {
+      "Default": "ubuntu1404_qcow2_64_141029.ubuntu1404-IaaS-publish-21",
+      "Description" : "Image name",
+      "Type": "String"
+    }
+  },
+
+  "Resources" : {
+
+    "RevealServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId"        : { "Ref" : "InstanceAMI" },
+        "InstanceType"   : { "Ref" : "InstanceType" },
+        "KeyName"        : { "Ref" : "KeyName" },
+        "AvailabilityZone" : "nova",
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["\n", [
+          "#!/bin/bash",
+                "apt-get update",
+                "apt-get -y upgrade",
+                "apt-get -y install git",
+                "/bin/mkdir -p /usr/local/devopsdays",
+                "/bin/chmod 0755 /usr/local/devopsdays",
+                "/usr/bin/git clone https://github.com/cybercom-finland/devopsdays.git /usr/local/devopsdays",
+                "/usr/bin/puppet apply /usr/local/devopsdays/reveal.pp",
+                { "Fn::Join" : [ "", [  "FACTER_elkserverip=", { "Fn::GetAtt" : [ "ELKServer", "PrivateIp" ]}, " /usr/bin/puppet apply /usr/local/devopsdays/syslogtologstash.pp" ]]},
+                "/usr/bin/puppet apply /usr/local/devopsdays/accesslogtologstash.pp"
+        ]]}}
+      }
+    },
+
+   "ELKServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId"        : { "Ref" : "InstanceAMI" },
+        "InstanceType"   : { "Ref" : "InstanceType" },
+        "KeyName"        : { "Ref" : "KeyName" },
+        "AvailabilityZone" : "nova",
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["\n", [
+          "#!/bin/bash",
+                "apt-get update",
+                "apt-get -y upgrade",
+                "apt-get -y install git",
+                "/bin/mkdir -p /usr/local/devopsdays",
+                "/bin/chmod 0755 /usr/local/devopsdays",
+                "/usr/bin/git clone https://github.com/cybercom-finland/devopsdays.git /usr/local/devopsdays",
+                "/usr/bin/puppet apply /usr/local/devopsdays/elkserver-library.pp",
+                "/usr/bin/puppet apply /usr/local/devopsdays/elkserver.pp",
+        ]]}}
+      }
+    }
+  },
+
+  "Outputs" : {
+    "PresentationURL" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "RevealServer", "PrivateIp" ]}, "/"]] },
+      "Description" : "See presentation here"
+    },
+    "ELKStackURL" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "ELKServer", "PrivateIp" ]}, "/"]] },
+      "Description" : "See ELK view here"
+    }
+  }
+}
+
+

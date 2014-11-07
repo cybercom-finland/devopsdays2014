@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>DevOps@Cybercom</title>
+
+		<meta name="description" content="DevOpsDays 2014 demo to roll on Cybercom Finland stand">
+		<meta name="author" content="Aarne Ojanpera">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/cybercom.css" id="theme">
+		<!--link rel="stylesheet" href="css/theme/default.css" id="theme" -->
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+              <div id="cc_logo" ></div> 
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>DevOps @ <a href="http://www.cybercom.com/What-we-do">Cybercom</a></h2>
+					<p>
+						<small><a href="http://twitter.com/CybercomFinland">@CybercomFinland</a></small>
+					</p>
+				</section>
+
+
+		    <section data-transition="zoom" data-autoslide="3000">
+			   <h2>Story of a presentation</h2>
+		<p>"Do something nice with <a href="http://lab.hakim.se/reveal-js/#/">Reveal.js</a>"</p>
+				<p class="fragment">Use OpenStack and Heat</p>
+				<p class="fragment">ELK graphs are COOL!</p>
+		    </section>
+				<section>
+                    <h2>toolbox</h2>
+                          <a href="http://www.ubuntu.com"><img height="100" src="ubuntu.jpg" alt="ubuntu"></a>
+		    <a href="https://about.gitlab.com"><img height="100" src="gitlab.png" alt="gitlab"></a>
+		    <a href="http://openstack.org"><img height="100" src="openstack.png" alt="openstack"></a>
+                    <a href="https://docs.puppetlabs.com"><img height="100" src="puppet-400x400.png" alt="puppet"></a>
+                    <a href="http://www.elasticsearch.org"><img height="100" src="elasticsearch.jpg" alt="elasticsearch"></a>
+				</section>
+
+			<section>
+                    <p>Presentation with vi and git</p>
+			<img class="strecth" src="devopsdaysvi.png">
+			<p>Clone reveal.js from <a href="https://github.com/hakimel/reveal.js">github.com</a></p>
+			</section>
+					
+				<section>
+		    <p>The base infrastructure on OpenStack</p>
+                    <a href="https://cloud.cybercom.com/cloud-portal"><img src="cybercloud.png" alt="devops"></a>
+				</section>
+
+			<section>
+			<h4>Heat template for presentation server</h4>
+			<pre class="stretch"><code>
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "DevOpsDays 2014 Cybercom Demo",
+...
+  "Resources" : {
+
+    "RevealServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+...
+  
+ "ELKServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+...
+  "Outputs" : {
+    "PresentationURL" : {
+      "Value" : { "Fn::Join" : ["", 
+	["http://", { "Fn::GetAtt" : [ "RevealServer", "PrivateIp" ]}, "/"]] },
+      "Description" : "See presentation here"
+			</code></pre>
+			<p>Check full template from <a href="https://github.com/cybercom-finland">Cybercom Finland GitHub page</a></p>
+			</section>
+			<section>
+			<h3>Heat stack deploy pattern</h3>
+			<p class="fragment">instance for <a href="http://lab.hakim.se/reveal-js/#/">Reveal.js</a> presentation</p>
+			<p class="fragment">instance for ELK stack</p>
+			<p class="fragment">Integration & setup with our favourite tools</p>
+			<p>
+
+			<iframe class="stretch" height="300" width="100%" src="http://devopsdays-elk.cybercomcloud.com/index.html#/dashboard/elasticsearch/LiveAccessLog"></iframe>
+			</p>
+			<p class="fragment">Resulting in this fashion</p>
+			
+
+			</section>
+			<section data-autoslide="130000">
+			<p> Heat deployment, via cli, API coming soon!</p>
+			<script  class="stretch" type="text/javascript" src="https://asciinema.org/a/13650.js" id="asciicast-13650" async></script>
+			</section>
+
+			<section>
+			<h3>ELK Stack</h3>
+			<p class="fragment">Deploy via puppet</p>
+			<p class="fragment">Logstash reads syslog input from clients servers</p>
+			<p class="fragment">Presentation server sends logs to logstash</p>
+			 <iframe class="stretch" height="210" width="100%" src="http://devopsdays-elk.cybercomcloud.com/index.html#/dashboard/elasticsearch/AccessPies"></iframe>
+			</section>
+
+
+			<section data-autoslide="20000">
+			<h3>ELK Stack</h3>
+			<p>Can you see your browser?</p>
+			<img height="120" src="devopsdayslink.png" alt="qrcode link">
+			 <iframe class="stretch" height="225" width="100%" src="http://devopsdays-elk.cybercomcloud.com/index.html#/dashboard/elasticsearch/AccessPies"></iframe>
+			<p>No QR? Check out <a href="http://bit.ly/cybercomdemo">http://bit.ly/cybercomdemo</a></p>
+			</section>
+
+			<section>
+			<p>Interested?</p>
+			<p>Admin view for ELK is <a href="http://devopsdays-elk.cybercomcloud.com" target="_blank">here</a></p>
+			<p><a href="http://cybercomcloud.com" target="_blank">Cybercom Cloud</a></p>
+			<p>All presentation material in <a href="https://github.com/cybercom-finland" target="_blank">GitHub</a></p>
+			</section>
+
+<!-- placeholder -->
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+			        margin: 0.1,
+				autoSlide: 8000,
+				
+
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+        			{ src: 'socket.io/socket.io.js', async: true },
+        			{ src: 'plugin/notes-server/client.js', async: true }
+
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

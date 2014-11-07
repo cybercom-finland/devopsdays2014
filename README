@@ -1,0 +1,8 @@
+Cybercom Finland Oy
+
+DevOpsDays 2014 demo presentation and related scripts
+
+cf_devops.demo.template - Heat template, written in CloudFormation, to launch two instances
+presentation - includes the presentation in reveal.js
+
+AccessPies and LiveAccessLog - used additional dashboards for ELK, import via GUI

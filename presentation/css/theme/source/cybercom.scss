@@ -1,0 +1,69 @@
+/**
+ * Sky theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Override theme settings (see ../template/settings.scss)
+$mainFont: 'Open Sans', sans-serif;
+$mainColor: #fff;
+$headingFont: 'Quicksand', sans-serif;
+$headingColor: #fff;
+$headingLetterSpacing: -0.08em;
+$headingTextShadow: none;
+$backgroundColor: #000000;
+$linkColor: #ed7b01;
+$linkColorHover: lighten( $linkColor, 10% );
+$selectionBackgroundColor: #015599;
+
+// Fix links so they are not cut off
+.reveal a:not(.image) {
+	line-height: 1.3em;
+}
+
+// Background generator
+@mixin bodyBackground() {
+	@include radial-gradient( #000000, #444444 );
+}
+
+// Logo style
+#cc_logo {
+   position: absolute;
+   width: 7%;
+   height: 12%;
+   max-width: 110px;
+   max-height: 100px;
+   top: 8px;
+   right: 8px;
+   background-image: url('img/cc_logo_orange.png');
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: right top;
+}
+
+// Cybercom colors
+.reveal .cc_blue {
+   color: #015599;
+}
+.reveal .cc_green {
+   color: #aab300;
+}
+.reveal .cc_orange {
+   color: #ed7b01;
+}
+.reveal .cc_purple {
+   color: #713188;
+}
+
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
