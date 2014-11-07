@@ -40,7 +40,7 @@
                 "apt-get -y install git",
                 "/bin/mkdir -p /usr/local/devopsdays",
                 "/bin/chmod 0755 /usr/local/devopsdays",
-                "/usr/bin/git clone https://github.com/cybercom-finland/devopsdays.git /usr/local/devopsdays",
+                "/usr/bin/git clone https://github.com/cybercom-finland/devopsdays2014.git /usr/local/devopsdays",
                 "/usr/bin/puppet apply /usr/local/devopsdays/reveal.pp",
                 { "Fn::Join" : [ "", [  "FACTER_elkserverip=", { "Fn::GetAtt" : [ "ELKServer", "PrivateIp" ]}, " /usr/bin/puppet apply /usr/local/devopsdays/syslogtologstash.pp" ]]},
                 "/usr/bin/puppet apply /usr/local/devopsdays/accesslogtologstash.pp"
@@ -62,7 +62,7 @@
                 "apt-get -y install git",
                 "/bin/mkdir -p /usr/local/devopsdays",
                 "/bin/chmod 0755 /usr/local/devopsdays",
-                "/usr/bin/git clone https://github.com/cybercom-finland/devopsdays.git /usr/local/devopsdays",
+                "/usr/bin/git clone https://github.com/cybercom-finland/devopsdays2014.git /usr/local/devopsdays",
                 "/usr/bin/puppet apply /usr/local/devopsdays/elkserver-library.pp",
                 "/usr/bin/puppet apply /usr/local/devopsdays/elkserver.pp",
         ]]}}
